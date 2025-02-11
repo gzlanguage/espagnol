@@ -232,3 +232,241 @@
         }
     </style>
 </head>
+<body>
+
+  <header>
+    <h1 translate="no">GZ</h1>
+    <div>
+      <a href="pagedetraduction.html">
+        <i class="fas fa-language share-icon"></i> <!-- Icono de traducción -->
+      </a>
+      <a href="Partage.html">
+        <i class="fas fa-share-alt share-icon"></i>
+      </a>
+    </div>
+  </header>
+
+  <div class="divider"></div> <!-- Línea separadora añadida aquí -->
+
+  <div class="button-container">
+    <a class="button" href="Faq.html" translate="yes"><i class="fas fa-question-circle"></i>FAQ</a>
+    <a class="button" href="Statistiques.html" id="statistiquesButton">
+      <i class="fas fa-chart-bar"></i> Descubrimiento</a>
+    <a class="button" href="Contact.html"><i class="fas fa-envelope"></i>Contacto</a>
+    <a class="button" href="Terms.html"><i class="fas fa-file-contract"></i>Términos</a>
+    <a class="button" href="Confidentialité.html"><i class="fas fa-file-contract"></i>Privacidad</a>
+  </div>
+
+  <script>
+    const button = document.getElementById('statistiquesButton');
+
+    let colors = ['lawngreen', 'white'];
+    let index = 0;
+
+    setInterval(() => {
+      button.style.borderBottom = `4px solid ${colors[index]}`;
+      index = (index + 1) % colors.length; // Ciclo a través de los colores
+    }, 400); // Cambia de color cada segundo
+  </script>
+
+  <div class="divider"></div>
+
+  <div class="notification">
+    <span class="notification-text">Descubramos juntos los secretos de nuestras generaciones.</span>
+    <div class="new-message-badge"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="footer-title">
+    ¡Únete a nosotros para descubrir los secretos de nuestra generación en solo unos clics!
+  </div>
+
+  <input type="date" class="date-input" id="birthdate" placeholder="Selecciona tu fecha de nacimiento" min="1900-01-01" max="" />
+  <select class="country-select" id="countrySelect">
+    <option value="" disabled selected>Selecciona tu país de nacimiento</option>
+  </select>
+  <p style="text-align: center; color: black; font-size: 0.7em; margin-top: 5px; text-decoration: underline; text-decoration-color: rgb(0, 123, 191);">
+    Al enviar, aceptas nuestros términos de uso.
+  </p>
+  <button class="submit-button" type="submit">Enviar</button>
+
+  <i class="fas fa-redo reset-icon" id="resetButton" title="Reiniciar"></i>
+
+  <div class="divider"></div>
+
+  <div class="rectangle">
+    <div class="text-line bold" style="font-size: 1em; color: #0056b3;">¿Cómo funciona?</div>
+    <div class="text-line"> Tienes dos selectores disponibles: el primero es un calendario para elegir tu fecha de nacimiento, y el segundo es un selector para tu país de nacimiento. Una vez que hayas hecho tus selecciones, haz clic en "Enviar". Después, se te pedirá que especifiques tu género biológico; haz clic en esta opción para convertirte en contribuyente. Finalmente, haz clic en el botón "Descubrimiento", que parpadea en verde. Luego descubrirás dos nuevos selectores: navega según tus preferencias para explorar las estadísticas. </div>
+  </div>
+
+  <div class="text-line" style="text-align: center; color: black;">
+    <span style="color: #007bff;">_____</span> No te pierdas nada <span style="color: #007bff;">_____</span>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <div class="logo-container">
+        <a href="https://www.facebook.com/share/15nGTcCb4i/.html" target="_blank" class="logo">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://x.com/GZWRD?t=g7yvHCDW2-xPLaTTgea-YA&s=09.html" target="_blank" class="logo">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="https://www.instagram.com/gzw0orld?igsh=a3M3aWpob21qcmFn.html" target="_blank" class="logo">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://t.me/WorldGZ" target="_blank" class="logo">
+          <i class="fab fa-telegram-plane"></i>
+        </a>
+      </div>
+      <div class="copyright">
+        ©️ 2025 G-Z
+      </div>
+    </div>
+  </footer>
+
+  <!-- Modal -->
+  <div id="genderModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header" style="text-decoration: underline;"> ¿Tu género al nacer?</div>
+      <div class="modal-footer">
+        <button class="close-button" id="genderMan" value="Hombre">Hombre</button>
+        <button class="close-button" id="genderWoman" value="Mujer">Mujer</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getDatabase, ref, push, remove } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBwfLgPM_tz2aFW33ck5iF9SPSxpPpYSHU",
+      authDomain: "genz-9f218.firebaseapp.com",
+      databaseURL: "https://genz-9f218-default-rtdb.firebaseio.com",
+      projectId: "genz-9f218",
+      storageBucket: "genz-9f218.firebasestorage.app",
+      messagingSenderId: "286958713700",
+      appId: "1:286958713700:web:29d878befaf6dd8c049871",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Autenticación anónima
+    signInAnonymously(auth)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("Usuario conectado: ", user.uid);
+      })
+      .catch((error) => {
+        console.error("Error durante el inicio de sesión anónimo: ", error);
+      });
+
+    const today = new Date().toISOString().split("T")[0];
+    document.getElementById("birthdate").setAttribute('max', today);
+
+    // Cargar la lista de países
+    fetch('https://restcountries.com/v3.1/all')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error de red: ' + response.status);
+        }
+        return response.json();
+      })
+      .then(data => {
+        data.sort((a, b) => a.name.common.localeCompare(b.name.common));
+        const countrySelect = document.getElementById('countrySelect');
+        data.forEach(country => {
+          const option = document.createElement('option');
+          option.value = country.name.common;
+          option.textContent = country.name.common;
+          countrySelect.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error cargando países:', error));
+
+    let lastSubmittedId = null;
+
+    document.querySelector('.submit-button').addEventListener('click', function() {
+      const birthdate = document.getElementById('birthdate').value;
+      const country = document.getElementById('countrySelect').value;
+
+      if (birthdate && country) {
+        const submitButton = document.querySelector('.submit-button');
+        submitButton.textContent = "Por favor espera...";
+        submitButton.style.backgroundColor = 'orange';
+
+        document.getElementById('genderModal').style.display = 'block';
+      } else {
+        alert("¡Por favor, ingresa una fecha de nacimiento y selecciona un país!");
+      }
+    });
+
+    document.getElementById('genderMan').addEventListener('click', function() {
+      submitData("Hombre");
+    });
+    document.getElementById('genderWoman').addEventListener('click', function() {
+      submitData("Mujer");
+    });
+
+    function submitData(gender) {
+      const birthdate = document.getElementById('birthdate').value;
+      const country = document.getElementById('countrySelect').value;
+      const submitButton = document.querySelector('.submit-button');
+
+      const newEntryRef = push(ref(database, 'birthdates'), {
+        date: birthdate,
+        country: country,
+        gender: gender
+      });
+
+      lastSubmittedId = newEntryRef.key;
+
+      newEntryRef.then(() => {
+        submitButton.style.backgroundColor = 'green';
+        submitButton.textContent = "Enviado";
+        submitButton.disabled = true;
+        document.getElementById('resetButton').style.display = "block";
+        document.getElementById('genderModal').style.display = 'none';
+      }).catch((error) => {
+        submitButton.style.backgroundColor = 'red';
+        submitButton.textContent = "Error";
+        console.error("Error durante la presentación: ", error);
+      });
+    }
+
+    document.getElementById('resetButton').addEventListener('click', function() {
+      if (lastSubmittedId) {
+        remove(ref(database, `birthdates/${lastSubmittedId}`))
+          .then(() => {
+            document.getElementById('birthdate').value = '';
+            document.getElementById('countrySelect').value = '';
+            const submitButton = document.querySelector('.submit-button');
+            submitButton.textContent = "Enviar";
+            submitButton.style.backgroundColor = '#007bff';
+            submitButton.disabled = false;
+            document.getElementById('resetButton').style.display = "none";
+          })
+          .catch((error) => {
+            console.error("Error durante la reinicialización de datos: ", error);
+          });
+      }
+    });
+
+    // Cerrar modal al hacer clic fuera
+    window.onclick = function(event) {
+      const modal = document.getElementById('genderModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+        const submitButton = document.querySelector('.submit-button');
+        submitButton.style.backgroundColor = 'red';
+        submitButton.textContent = "Error";
+      }
+    };
+  </script>
+</body>
+</html>
